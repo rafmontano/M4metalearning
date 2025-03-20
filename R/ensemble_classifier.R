@@ -126,7 +126,9 @@ train_selection_ensemble <- function(data, errors, param=NULL) {
 #' @param newdata The feature matrix, one row per series
 #' @export
 predict_selection_ensemble <- function(model, newdata) {
-  pred <- stats::predict(model, newdata, outputmargin = TRUE, reshape=TRUE)
+  #pred <- stats::predict(model, newdata, outputmargin = TRUE, reshape=TRUE)
+  pred <- stats::predict(model, xgboost::xgb.DMatrix(as.matrix(newdata)),
+                         outputmargin = TRUE, reshape=TRUE)
   pred <- t(apply( pred, 1, softmax_transform))
   pred
 }
